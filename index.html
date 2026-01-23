@@ -84,6 +84,16 @@ main {
   font-size: 14px;
   opacity: 0.85;
   line-height: 1.6;
+  margin-bottom: 12px; /* Added spacing between paragraphs */
+}
+
+/* LIST STYLING */
+.styled-list {
+  margin-left: 20px;
+  font-size: 14px;
+  opacity: 0.85;
+  line-height: 1.6;
+  margin-bottom: 12px;
 }
 
 /* FOOTER */
@@ -112,7 +122,7 @@ footer a:hover {
 <canvas id="stars"></canvas>
 
 <header>
-  <h1>project: statfall</h1>
+  <h1>project: starfall</h1>
   <nav>
     <a href="#home">Home</a>
     <a href="#play">Play</a>
@@ -130,7 +140,7 @@ footer a:hover {
   <section id="home" class="page active">
     <h2>Welcome</h2>
     <p>
-      project: statfall is a drifting collection of browser games.<br>
+      project: starfall is a drifting collection of browser games.<br>
       This site is embedded, lightweight, and designed to work anywhere.
     </p>
   </section>
@@ -166,57 +176,60 @@ footer a:hover {
   <section id="about" class="page">
     <h2>About</h2>
     <p>
-      project: statfall is a non-commercial, educational project.
+      project: starfall is a non-commercial, educational project.
     </p>
   </section>
 
   <section id="legal" class="page">
-  <h2>Legal Information</h2>
-
-  <p>
-    project: starfall is a non-commercial, educational website that provides access to browser-based games.
-  </p>
-
-  <p>
-    project: starfall does not claim ownership of third-party content. Games available through this site are either:
-  </p>
-
-  <ul style="margin-left: 20px; font-size: 14px; opacity: 0.85;">
-    <li>Embedded from third-party sources, or</li>
-    <li>Shared under open-source or permissive licenses, or</li>
-    <li>Believed to be freely distributable by their creators</li>
-  </ul>
-  <p>
-    No copyrighted files are intentionally hosted directly by project: starfall unless explicitly stated.
-  </p>
-
-  <p>
-    project: starfall is not affiliated with or endorsed by any game developers unless otherwise noted.
-  </p>
-
-  <p>
-    If you are a copyright holder and believe content on this site infringes your rights, please visit our DMCA page for removal instructions.
-  </p>
-
-  <p>
-    Use of this site is at your own risk. External content may behave differently depending on device, browser, or network restrictions.
-  </p>
-</section>
+    <h2>Legal Information</h2>
+    <p>
+      project: starfall is a non-commercial, educational website that provides access to browser-based games.
+    </p>
+    <p>
+      project: starfall does not claim ownership of third-party content. Games available through this site are either:
+    </p>
+    <ul class="styled-list">
+      <li>Embedded from third-party sources, or</li>
+      <li>Shared under open-source or permissive licenses, or</li>
+      <li>Believed to be freely distributable by their creators</li>
+    </ul>
+    <p>
+      No copyrighted files are intentionally hosted directly by project: starfall unless explicitly stated.
+    </p>
+    <p>
+      project: starfall is not affiliated with or endorsed by any game developers unless otherwise noted.
+    </p>
+    <p>
+      If you are a copyright holder and believe content on this site infringes your rights, please visit our DMCA page for removal instructions.
+    </p>
+    <p>
+      Use of this site is at your own risk. External content may behave differently depending on device, browser, or network restrictions.
+    </p>
+  </section>
 
   <section id="dmca" class="page">
     <h2>DMCA Takedown Policy</h2>
     <p>
       project: starfall respects the intellectual property rights of others and complies with the Digital Millennium Copyright Act (DMCA).
+    </p>
+    <p>
       If you believe that content accessible through project: starfall infringes your copyright, please submit a takedown request containing the following information:
-      Your full name and contact information (email required)
-      Identification of the copyrighted work you claim has been infringed
-      The exact URL(s) on project: starfall where the allegedly infringing content appears
-      A statement that you have a good-faith belief that the use of the material is not authorized by the copyright owner, its agent, or the law
-      A statement, made under penalty of perjury, that the information provided is accurate and that you are the copyright owner or authorized to act on their behalf
-      Your physical or electronic signature (typing your full legal name is acceptable)
+    </p>
+    <ul class="styled-list">
+      <li>Your full name and contact information (email required)</li>
+      <li>Identification of the copyrighted work you claim has been infringed</li>
+      <li>The exact URL(s) on project: starfall where the allegedly infringing content appears</li>
+      <li>A statement that you have a good-faith belief that the use of the material is not authorized by the copyright owner, its agent, or the law</li>
+      <li>A statement, made under penalty of perjury, that the information provided is accurate and that you are the copyright owner or authorized to act on their behalf</li>
+      <li>Your physical or electronic signature (typing your full legal name is acceptable)</li>
+    </ul>
+    <p>
       Upon receipt of a valid DMCA notice, project: starfall will promptly remove or disable access to the allegedly infringing content.
-      Takedown requests may be submitted via:
-      Our DMCA request form.
+    </p>
+    <p>
+      Takedown requests may be submitted via our DMCA request form.
+    </p>
+    <p>
       Please note that submitting false or misleading claims may result in legal consequences.
     </p>
   </section>
@@ -231,7 +244,6 @@ footer a:hover {
   </div>
 </footer>
 
-<!-- PAGE SWITCHING -->
 <script>
 const pages = document.querySelectorAll(".page");
 
@@ -246,20 +258,25 @@ window.addEventListener("hashchange", showPage);
 showPage();
 </script>
 
-<!-- STAR BACKGROUND -->
 <script>
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
 let w, h, layers;
 
-function resize() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
+// Initialize the stars separately so they aren't reset on resize
+function initStars() {
   layers = [
     makeStars(80, 0.2, 1),
     makeStars(120, 0.5, 1.5),
     makeStars(160, 1.0, 2)
   ];
+}
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+  // If layers don't exist yet, create them. Otherwise, leave them alone.
+  if (!layers) initStars();
 }
 
 function makeStars(count, speed, size) {
@@ -289,7 +306,7 @@ function draw() {
 }
 
 window.addEventListener("resize", resize);
-resize();
+resize(); // Call once to set width/height and init stars
 draw();
 </script>
 
