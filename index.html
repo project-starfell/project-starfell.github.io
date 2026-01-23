@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <title>project: starfall</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌠</text></svg>">
-  
+
 <style>
 * {
   margin: 0;
@@ -17,7 +17,7 @@
 
 html, body {
   height: 100%;
-  background: transparent;
+  background: transparent; /* Allows us to see the canvas behind */
   color: #eaeaea;
   overflow-x: hidden;
 }
@@ -27,7 +27,7 @@ canvas {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: black;
+  background: black; /* The background color lives here now */
 }
 
 /* HEADER */
@@ -38,6 +38,8 @@ header {
   padding: 14px 20px;
   background: rgba(0,0,0,0.7);
   border-bottom: 1px solid rgba(255,255,255,0.1);
+  position: relative; 
+  z-index: 10;
 }
 
 header h1 {
@@ -50,10 +52,12 @@ nav a {
   text-decoration: none;
   color: #cfcfcf;
   font-size: 14px;
+  transition: color 0.2s;
 }
 
 nav a:hover {
   color: white;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
 }
 
 /* PAGE CONTAINER */
@@ -68,6 +72,7 @@ main {
 .page {
   display: none;
   max-width: 800px;
+  width: 100%;
   background: rgba(0,0,0,0.55);
   padding: 40px;
   border-radius: 8px;
@@ -87,7 +92,40 @@ main {
   font-size: 14px;
   opacity: 0.85;
   line-height: 1.6;
-  margin-bottom: 12px; /* Added spacing between paragraphs */
+  margin-bottom: 12px;
+}
+
+/* GAME GRID STYLES (New) */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.game-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  height: 120px; /* Fixed height for placeholders */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  color: #ccc;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.game-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: white;
+  transform: translateY(-4px); /* Floats up */
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);
+  color: white;
 }
 
 /* LIST STYLING */
@@ -107,6 +145,8 @@ footer {
   opacity: 0.75;
   border-top: 1px solid rgba(255,255,255,0.1);
   background: rgba(0,0,0,0.6);
+  position: relative;
+  z-index: 10;
 }
 
 footer a {
@@ -151,8 +191,19 @@ footer a:hover {
   <section id="play" class="page">
     <h2>Play</h2>
     <p>
-      Game categories and featured embeds will appear here.
+      Game categories and featured embeds will appear here. Click a card to simulate loading (functionality pending).
     </p>
+    
+    <div class="game-grid">
+      <div class="game-card">Asteroid Avoider</div>
+      <div class="game-card">Neon Racer</div>
+      <div class="game-card">Space Chess</div>
+      <div class="game-card">Cyber Runner</div>
+      <div class="game-card">Star Puzzle</div>
+      <div class="game-card">Lunar Lander</div>
+      <div class="game-card">Void Drifter</div>
+      <div class="game-card">Pixel Defense</div>
+    </div>
   </section>
 
   <section id="missions" class="page">
