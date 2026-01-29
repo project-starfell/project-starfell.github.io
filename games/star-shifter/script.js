@@ -1,13 +1,15 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const phaseText = document.getElementById('phase');
 const scoreText = document.getElementById('score');
 
+// State Management
+let score = 0;
+let gameState = "START"; 
+let currentPhase = 'CYAN'; // Phases: CYAN or MAGENTA
+
+// Fixed Game Dimensions
 canvas.width = 800;
 canvas.height = 600;
-
-let score = 0;
-let currentPhase = 'CYAN'; // Phases: CYAN or MAGENTA
 
 const player = {
     x: 100, y: 100,
@@ -19,7 +21,6 @@ const player = {
     grounded: false
 };
 
-// Platforms with phase properties
 const platforms = [
     { x: 0, y: 550, w: 800, h: 50, type: 'STATIC' },
     { x: 200, y: 400, w: 150, h: 20, type: 'CYAN' },
@@ -30,92 +31,109 @@ const platforms = [
 
 const stars = [{ x: 530, y: 100, collected: false }];
 
+// Input Handling
 const keys = {};
 window.onkeydown = (e) => {
     keys[e.code] = true;
     if (e.code === 'Space') {
-        currentPhase = currentPhase === 'CYAN' ? 'MAGENTA' : 'CYAN';
-        phaseText.innerText = currentPhase;
-        phaseText.style.color = currentPhase === 'CYAN' ? '#0ff' : '#f0f';
+        if (gameState === "PLAYING") {
+            currentPhase = currentPhase === 'CYAN' ? 'MAGENTA' : 'CYAN';
+        } else {
+            resetGame();
+        }
     }
 };
 window.onkeyup = (e) => keys[e.code] = false;
 
+function resetGame() {
+    score = 0;
+    scoreText.innerText = score;
+    player.x = 100;
+    player.y = 100;
+    player.vx = 0;
+    player.vy = 0;
+    gameState = "PLAYING";
+}
+
 function update() {
-    // 1. Movement Logic
+    if (gameState !== "PLAYING") return;
+
+    // 1. Horizontal Movement
     if (keys['ArrowLeft']) player.vx = -player.speed;
     else if (keys['ArrowRight']) player.vx = player.speed;
-    else player.vx *= 0.8; // Friction
+    else player.vx *= 0.8;
 
+    // 2. Jumping
     if (keys['ArrowUp'] && player.grounded) {
         player.vy = player.jump;
         player.grounded = false;
     }
 
-    // 2. Apply Physics
+    // 3. Gravity & Movement
     player.vy += player.gravity;
     player.x += player.vx;
     player.y += player.vy;
 
-    player.grounded = false;
-
-    // 3. Respawn Logic (The Fix)
-    // If player falls below the bottom of the canvas
+    // 4. Bound Checks
+    if (player.x < 0) player.x = 0;
+    if (player.x + player.w > canvas.width) player.x = canvas.width - player.w;
+    
+    // Fall off bottom = Game Over (No Alert!)
     if (player.y > canvas.height) {
-        respawn();
+        gameState = "GAMEOVER";
     }
 
-    // 4. Platform Collision
+    // 5. Robust Collision Logic
+    player.grounded = false;
     platforms.forEach(p => {
+        // Only collide if platform is STATIC or matches current phase
         if (p.type === 'STATIC' || p.type === currentPhase) {
-            if (player.x < p.x + p.w && 
-                player.x + player.w > p.x &&
-                player.y + player.h > p.y && 
-                player.y + player.h < p.y + p.vy + 10) {
-                player.y = p.y - player.h;
-                player.vy = 0;
-                player.grounded = true;
+            // Check if player is falling and within X bounds
+            if (player.vx >= 0 || player.vx < 0) { // Horizontal check
+                if (player.x < p.x + p.w && player.x + player.w > p.x) {
+                    // Vertical collision (landing on top)
+                    if (player.vy > 0 && 
+                        player.y + player.h >= p.y && 
+                        player.y + player.h <= p.y + p.h + player.vy) {
+                        player.y = p.y - player.h;
+                        player.vy = 0;
+                        player.grounded = true;
+                    }
+                }
             }
         }
     });
 
-    // 5. Star Collection
+    // 6. Star Collection
     stars.forEach(s => {
-        if (!s.collected && Math.hypot(player.x - s.x, player.y - s.y) < 30) {
+        if (!s.collected && Math.hypot((player.x + player.w/2) - s.x, (player.y + player.h/2) - s.y) < 30) {
             s.collected = true;
             score++;
             scoreText.innerText = score;
             setTimeout(() => {
                 s.x = Math.random() * 700 + 50;
-                s.y = Math.random() * 400 + 100;
+                s.y = Math.random() * 350 + 50;
                 s.collected = false;
-            }, 1000);
+            }, 500);
         }
     });
 }
 
-// Helper function to reset player position
-function respawn() {
-    player.x = 100;
-    player.y = 100;
-    player.vx = 0;
-    player.vy = 0;
-    // Optional: Add a small screen shake or sound effect here
-}
-
 function draw() {
+    // Clear Background
     ctx.fillStyle = '#000510';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Draw Platforms
     platforms.forEach(p => {
         if (p.type === 'STATIC') ctx.fillStyle = '#444';
-        else if (p.type === 'CYAN') ctx.fillStyle = currentPhase === 'CYAN' ? '#0ff' : '#044';
-        else if (p.type === 'MAGENTA') ctx.fillStyle = currentPhase === 'MAGENTA' ? '#f0f' : '#404';
+        else if (p.type === 'CYAN') ctx.fillStyle = currentPhase === 'CYAN' ? '#0ff' : '#022';
+        else if (p.type === 'MAGENTA') ctx.fillStyle = currentPhase === 'MAGENTA' ? '#f0f' : '#303';
         
-        ctx.shadowBlur = p.type === currentPhase ? 15 : 0;
+        ctx.shadowBlur = (p.type === currentPhase || p.type === 'STATIC') ? 10 : 0;
         ctx.shadowColor = ctx.fillStyle;
         ctx.fillRect(p.x, p.y, p.w, p.h);
+        ctx.shadowBlur = 0;
     });
 
     // Draw Star
@@ -123,16 +141,44 @@ function draw() {
         if (!s.collected) {
             ctx.fillStyle = '#fff';
             ctx.shadowBlur = 20;
+            ctx.shadowColor = '#fff';
             ctx.beginPath();
             ctx.arc(s.x, s.y, 8, 0, Math.PI * 2);
             ctx.fill();
+            ctx.shadowBlur = 0;
         }
     });
 
     // Draw Player
     ctx.fillStyle = '#fff';
     ctx.shadowBlur = 10;
+    ctx.shadowColor = '#fff';
     ctx.fillRect(player.x, player.y, player.w, player.h);
+    ctx.shadowBlur = 0;
+
+    // Overlay Menus
+    if (gameState !== "PLAYING") {
+        ctx.fillStyle = "rgba(0,0,0,0.8)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.textAlign = "center";
+        
+        if (gameState === "START") {
+            ctx.fillStyle = "#0ff";
+            ctx.font = "30px Courier New";
+            ctx.fillText("STAR SHIFTER", canvas.width / 2, canvas.height / 2 - 20);
+            ctx.font = "18px Courier New";
+            ctx.fillText("USE ARROWS TO MOVE | SPACE TO SHIFT", canvas.width / 2, canvas.height / 2 + 20);
+            ctx.fillText("PRESS SPACE TO BEGIN", canvas.width / 2, canvas.height / 2 + 60);
+        } else {
+            ctx.fillStyle = "#ff4444";
+            ctx.font = "30px Courier New";
+            ctx.fillText("SIGNAL LOST", canvas.width / 2, canvas.height / 2 - 20);
+            ctx.fillStyle = "#fff";
+            ctx.font = "18px Courier New";
+            ctx.fillText(`STARS COLLECTED: ${score}`, canvas.width / 2, canvas.height / 2 + 20);
+            ctx.fillText("PRESS SPACE TO RE-SYNC", canvas.width / 2, canvas.height / 2 + 70);
+        }
+    }
 
     update();
     requestAnimationFrame(draw);
