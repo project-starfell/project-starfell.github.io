@@ -73,6 +73,7 @@ function update() {
             player.y < obs.y + obs.h &&
             player.y + player.h > obs.y) {
             gameState = "GAMEOVER";
+            window.parent.postMessage({game: 'NeonRacer', score: score}, '*');
         }
 
         // Scoring
