@@ -6,8 +6,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌠</text></svg>">
-
 <link rel="stylesheet" href="style.css">
+
+<style>
+  /* Quick inline styles to ensure the loader works immediately */
+  #game-container { display: none; text-align: center; }
+  #game-viewport { width: 100%; height: 75vh; border: 2px solid #444; border-radius: 8px; background: #000; }
+  .back-btn { background: #333; color: white; border: none; padding: 10px 20px; cursor: pointer; margin-bottom: 10px; border-radius: 4px; }
+  .back-btn:hover { background: #555; }
+  .game-card { cursor: pointer; transition: 0.2s; }
+  .game-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.1); }
+</style>
 
 </head>
 <body>
@@ -39,103 +48,60 @@
   </section>
 
   <section id="play" class="page">
-    <h2>Play</h2>
-    <p>
-      Game categories and featured embeds will appear here. Click a card to simulate loading (functionality pending).
-    </p>
-    
-    <div class="game-grid">
-      <div class="game-card">Asteroid Avoider</div>
-      <div class="game-card">Neon Racer</div>
-      <div class="game-card">Space Chess</div>
-      <div class="game-card">Cyber Runner</div>
-      <div class="game-card">Star Puzzle</div>
-      <div class="game-card">Lunar Lander</div>
-      <div class="game-card">Void Drifter</div>
-      <div class="game-card">Pixel Defense</div>
+    <div id="game-container">
+      <button class="back-btn" onclick="closeGame()">← Back to Library</button>
+      <iframe id="game-viewport" src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div id="library">
+      <h2>Play</h2>
+      <p>Select a transmission to begin.</p>
+      <div class="game-grid">
+        <div class="game-card" onclick="loadGame('games/neon-racer/index.html')">Neon Racer</div>
+        <div class="game-card">Asteroid Avoider (Pending)</div>
+        <div class="game-card">Space Chess</div>
+        <div class="game-card">Cyber Runner</div>
+        <div class="game-card">Star Puzzle</div>
+        <div class="game-card">Lunar Lander</div>
+        <div class="game-card">Void Drifter</div>
+        <div class="game-card">Pixel Defense</div>
+      </div>
     </div>
   </section>
 
   <section id="missions" class="page">
     <h2>Missions</h2>
-    <p>
-      Curated challenges and recommended play paths.
-    </p>
+    <p>Curated challenges and recommended play paths.</p>
   </section>
 
   <section id="archive" class="page">
     <h2>Archive</h2>
-    <p>
-      Full game list sorted by genre, engine, and performance.
-    </p>
+    <p>Full game list sorted by genre, engine, and performance.</p>
   </section>
 
   <section id="systems" class="page">
     <h2>Systems</h2>
-    <p>
-      Controls, performance tips, and compatibility information.
-    </p>
+    <p>Controls, performance tips, and compatibility information.</p>
   </section>
 
   <section id="about" class="page">
     <h2>About</h2>
-    <p>
-      project: starfall is a non-commercial, educational project.
-    </p>
+    <p>project: starfall is a non-commercial, educational project.</p>
   </section>
 
   <section id="legal" class="page">
     <h2>Legal Information</h2>
-    <p>
-      project: starfall is a non-commercial, educational website that provides access to browser-based games.
-    </p>
-    <p>
-      project: starfall does not claim ownership of third-party content. Games available through this site are either:
-    </p>
+    <p>project: starfall is a non-commercial, educational website.</p>
     <ul class="styled-list">
       <li>Embedded from third-party sources, or</li>
-      <li>Shared under open-source or permissive licenses, or</li>
-      <li>Believed to be freely distributable by their creators</li>
+      <li>Shared under open-source licenses, or</li>
+      <li>Believed to be freely distributable</li>
     </ul>
-    <p>
-      No copyrighted files are intentionally hosted directly by project: starfall unless explicitly stated.
-    </p>
-    <p>
-      project: starfall is not affiliated with or endorsed by any game developers unless otherwise noted.
-    </p>
-    <p>
-      If you are a copyright holder and believe content on this site infringes your rights, please visit our DMCA page for removal instructions.
-    </p>
-    <p>
-      Use of this site is at your own risk. External content may behave differently depending on device, browser, or network restrictions.
-    </p>
   </section>
 
   <section id="dmca" class="page">
     <h2>DMCA Takedown Policy</h2>
-    <p>
-      project: starfall respects the intellectual property rights of others and complies with the Digital Millennium Copyright Act (DMCA).
-    </p>
-    <p>
-      If you believe that content accessible through project: starfall infringes your copyright, please submit a takedown request containing the following information:
-    </p>
-    <ul class="styled-list">
-      <li>Your full name and contact information (email required)</li>
-      <li>Identification of the copyrighted work you claim has been infringed</li>
-      <li>The exact URL(s) on project: starfall where the allegedly infringing content appears</li>
-      <li>A statement that you have a good-faith belief that the use of the material is not authorized by the copyright owner, its agent, or the law</li>
-      <li>A statement, made under penalty of perjury, that the information provided is accurate and that you are the copyright owner or authorized to act on their behalf</li>
-      <li>Your physical or electronic signature (typing your full legal name is acceptable)</li>
-    </ul>
-    <p>
-      Upon receipt of a valid DMCA notice, project: starfall will promptly remove or disable access to the allegedly infringing content.
-    </p>
-    <p>
-      Takedown requests may be submitted via our DMCA request form.
-    </p>
-    <p>
-      Please note that submitting false or misleading claims may result in legal consequences.
-    </p>
+    <p>Requests may be submitted via our DMCA request form.</p>
   </section>
 
 </main>
@@ -143,8 +109,8 @@
 <footer>
   <div>© 2026 project: starfall · Non-commercial · Educational</div>
   <div style="margin-top:6px;">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeRrrqK_mzbmn4fv3P58Tclvl-ibbQvalWEicyY8snzWiad1w/viewform?usp=header">Request a Game</a> |
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLScZr9cMl5rhWTBoZWKqgPXWUJkD2O0ipP01BOs7xxxcZ-Hd5g/viewform?usp=header">Report Issue</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeRrrqK_mzbmn4fv3P58Tclvl-ibbQvalWEicyY8snzWiad1w/viewform?usp=header" target="_blank">Request a Game</a> |
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScZr9cMl5rhWTBoZWKqgPXWUJkD2O0ipP01BOs7xxxcZ-Hd5g/viewform?usp=header" target="_blank">Report Issue</a>
   </div>
 </footer>
 
@@ -153,6 +119,10 @@ const pages = document.querySelectorAll(".page");
 
 function showPage() {
   const hash = location.hash.replace("#", "") || "home";
+  
+  // If we switch tabs, automatically close any running game
+  if (hash !== "play") closeGame();
+
   pages.forEach(p => p.classList.remove("active"));
   const page = document.getElementById(hash);
   if (page) page.classList.add("active");
@@ -163,11 +133,32 @@ showPage();
 </script>
 
 <script>
+function loadGame(path) {
+  const viewport = document.getElementById('game-viewport');
+  const container = document.getElementById('game-container');
+  const library = document.getElementById('library');
+
+  viewport.src = path; 
+  library.style.display = 'none';
+  container.style.display = 'block';
+}
+
+function closeGame() {
+  const viewport = document.getElementById('game-viewport');
+  const container = document.getElementById('game-container');
+  const library = document.getElementById('library');
+
+  viewport.src = ''; // Kill the game process
+  container.style.display = 'none';
+  library.style.display = 'block';
+}
+</script>
+
+<script>
 const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
 let w, h, layers;
 
-// Initialize the stars separately so they aren't reset on resize
 function initStars() {
   layers = [
     makeStars(80, 0.2, 1),
@@ -179,7 +170,6 @@ function initStars() {
 function resize() {
   w = canvas.width = window.innerWidth;
   h = canvas.height = window.innerHeight;
-  // If layers don't exist yet, create them. Otherwise, leave them alone.
   if (!layers) initStars();
 }
 
@@ -210,7 +200,7 @@ function draw() {
 }
 
 window.addEventListener("resize", resize);
-resize(); // Call once to set width/height and init stars
+resize();
 draw();
 </script>
 
