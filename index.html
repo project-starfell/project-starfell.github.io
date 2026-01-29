@@ -4,20 +4,18 @@
 <meta charset="UTF-8">
 <title>project: starfall</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌠</text></svg>">
 <link rel="stylesheet" href="style.css">
 
 <style>
-  /* Quick inline styles to ensure the loader works immediately */
+  /* Essential layout for the game loader */
   #game-container { display: none; text-align: center; }
-  #game-viewport { width: 100%; height: 75vh; border: 2px solid #444; border-radius: 8px; background: #000; }
-  .back-btn { background: #333; color: white; border: none; padding: 10px 20px; cursor: pointer; margin-bottom: 10px; border-radius: 4px; }
-  .back-btn:hover { background: #555; }
-  .game-card { cursor: pointer; transition: 0.2s; }
-  .game-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.1); }
+  #game-viewport { width: 100%; height: 80vh; border: 2px solid #00d4ff; border-radius: 12px; background: #000; box-shadow: 0 0 20px rgba(0, 212, 255, 0.2); }
+  .back-btn { background: #1a1a1a; color: #00d4ff; border: 1px solid #00d4ff; padding: 10px 20px; cursor: pointer; margin-bottom: 15px; border-radius: 5px; font-family: monospace; text-transform: uppercase; transition: 0.3s; }
+  .back-btn:hover { background: #00d4ff; color: #000; box-shadow: 0 0 10px #00d4ff; }
+  .game-card { cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+  .game-card:hover { transform: scale(1.05); border-color: #00d4ff; color: #00d4ff; }
 </style>
-
 </head>
 <body>
 
@@ -49,60 +47,28 @@
 
   <section id="play" class="page">
     <div id="game-container">
-      <button class="back-btn" onclick="closeGame()">← Back to Library</button>
+      <button class="back-btn" onclick="closeGame()">📂 Return to Archive</button>
       <iframe id="game-viewport" src="" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <div id="library">
-      <h2>Play</h2>
-      <p>Select a transmission to begin.</p>
+      <h2>Game Library</h2>
       <div class="game-grid">
         <div class="game-card" onclick="loadGame('games/neon-racer/index.html')">Neon Racer</div>
-        <div class="game-card">Asteroid Avoider (Pending)</div>
-        <div class="game-card">Space Chess</div>
-        <div class="game-card">Cyber Runner</div>
-        <div class="game-card">Star Puzzle</div>
-        <div class="game-card">Lunar Lander</div>
-        <div class="game-card">Void Drifter</div>
-        <div class="game-card">Pixel Defense</div>
+        <div class="game-card" onclick="loadGame('games/asteroid-avoider/index.html')">Asteroid Avoider</div>
+        <div class="game-card" onclick="loadGame('games/cyber-pulse/index.html')">Cyber Pulse</div>
+        <div class="game-card" onclick="loadGame('games/star-shifter/index.html')">Star Shifter</div>
+        <div class="game-card" onclick="loadGame('games/void-operator/index.html')">Void Operator</div>
       </div>
     </div>
   </section>
 
-  <section id="missions" class="page">
-    <h2>Missions</h2>
-    <p>Curated challenges and recommended play paths.</p>
-  </section>
-
-  <section id="archive" class="page">
-    <h2>Archive</h2>
-    <p>Full game list sorted by genre, engine, and performance.</p>
-  </section>
-
-  <section id="systems" class="page">
-    <h2>Systems</h2>
-    <p>Controls, performance tips, and compatibility information.</p>
-  </section>
-
-  <section id="about" class="page">
-    <h2>About</h2>
-    <p>project: starfall is a non-commercial, educational project.</p>
-  </section>
-
-  <section id="legal" class="page">
-    <h2>Legal Information</h2>
-    <p>project: starfall is a non-commercial, educational website.</p>
-    <ul class="styled-list">
-      <li>Embedded from third-party sources, or</li>
-      <li>Shared under open-source licenses, or</li>
-      <li>Believed to be freely distributable</li>
-    </ul>
-  </section>
-
-  <section id="dmca" class="page">
-    <h2>DMCA Takedown Policy</h2>
-    <p>Requests may be submitted via our DMCA request form.</p>
-  </section>
+  <section id="missions" class="page"><h2>Missions</h2><p>Challenges pending.</p></section>
+  <section id="archive" class="page"><h2>Archive</h2><p>Viewing local storage.</p></section>
+  <section id="systems" class="page"><h2>Systems</h2><p>Optimize for Chromium browsers.</p></section>
+  <section id="about" class="page"><h2>About</h2><p>Non-commercial educational project.</p></section>
+  <section id="legal" class="page"><h2>Legal</h2><p>Project: Starfall uses open-source content.</p></section>
+  <section id="dmca" class="page"><h2>DMCA</h2><p>Contact for takedown requests.</p></section>
 
 </main>
 
@@ -119,10 +85,7 @@ const pages = document.querySelectorAll(".page");
 
 function showPage() {
   const hash = location.hash.replace("#", "") || "home";
-  
-  // If we switch tabs, automatically close any running game
-  if (hash !== "play") closeGame();
-
+  if (hash !== "play") closeGame(); // Close game if user leaves Play tab
   pages.forEach(p => p.classList.remove("active"));
   const page = document.getElementById(hash);
   if (page) page.classList.add("active");
@@ -141,6 +104,8 @@ function loadGame(path) {
   viewport.src = path; 
   library.style.display = 'none';
   container.style.display = 'block';
+  // Scroll to top so user sees the game
+  window.scrollTo(0, 0);
 }
 
 function closeGame() {
@@ -148,7 +113,7 @@ function closeGame() {
   const container = document.getElementById('game-container');
   const library = document.getElementById('library');
 
-  viewport.src = ''; // Kill the game process
+  viewport.src = ''; // Stops the game audio/logic
   container.style.display = 'none';
   library.style.display = 'block';
 }
@@ -187,10 +152,10 @@ function draw() {
   for (const layer of layers) {
     for (const s of layer) {
       ctx.fillStyle = "white";
-      ctx.globalAlpha = 0.9;
+      ctx.globalAlpha = 0.8;
       ctx.fillRect(s.x, s.y, s.size, s.size);
       s.y += s.speed;
-      if (s.y > h) {
+      if (s.y > h || s.x > w) {
         s.y = 0;
         s.x = Math.random() * w;
       }
