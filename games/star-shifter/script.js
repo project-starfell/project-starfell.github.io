@@ -42,30 +42,36 @@ window.onkeydown = (e) => {
 window.onkeyup = (e) => keys[e.code] = false;
 
 function update() {
-    // Left/Right
+    // 1. Movement Logic
     if (keys['ArrowLeft']) player.vx = -player.speed;
     else if (keys['ArrowRight']) player.vx = player.speed;
-    else player.vx *= 0.8;
+    else player.vx *= 0.8; // Friction
 
-    // Jump
     if (keys['ArrowUp'] && player.grounded) {
         player.vy = player.jump;
         player.grounded = false;
     }
 
-    // Gravity
+    // 2. Apply Physics
     player.vy += player.gravity;
     player.x += player.vx;
     player.y += player.vy;
 
     player.grounded = false;
 
-    // Platform Collision
+    // 3. Respawn Logic (The Fix)
+    // If player falls below the bottom of the canvas
+    if (player.y > canvas.height) {
+        respawn();
+    }
+
+    // 4. Platform Collision
     platforms.forEach(p => {
-        // Only collide if platform is STATIC or matches current phase
         if (p.type === 'STATIC' || p.type === currentPhase) {
-            if (player.x < p.x + p.w && player.x + player.w > p.x &&
-                player.y + player.h > p.y && player.y + player.h < p.y + p.vy + 10) {
+            if (player.x < p.x + p.w && 
+                player.x + player.w > p.x &&
+                player.y + player.h > p.y && 
+                player.y + player.h < p.y + p.vy + 10) {
                 player.y = p.y - player.h;
                 player.vy = 0;
                 player.grounded = true;
@@ -73,13 +79,12 @@ function update() {
         }
     });
 
-    // Star Collection
+    // 5. Star Collection
     stars.forEach(s => {
         if (!s.collected && Math.hypot(player.x - s.x, player.y - s.y) < 30) {
             s.collected = true;
             score++;
             scoreText.innerText = score;
-            // Spawn next star randomly
             setTimeout(() => {
                 s.x = Math.random() * 700 + 50;
                 s.y = Math.random() * 400 + 100;
@@ -87,6 +92,15 @@ function update() {
             }, 1000);
         }
     });
+}
+
+// Helper function to reset player position
+function respawn() {
+    player.x = 100;
+    player.y = 100;
+    player.vx = 0;
+    player.vy = 0;
+    // Optional: Add a small screen shake or sound effect here
 }
 
 function draw() {
