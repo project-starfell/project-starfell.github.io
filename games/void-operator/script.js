@@ -119,6 +119,7 @@ function animate() {
 
             if (distance < player.size + f.size / 2) {
                 gameState = "GAMEOVER";
+                window.parent.postMessage({game: 'VoidOperator', score: score}, '*');
                 spawnParticles(player.x, player.y);
             }
         });
