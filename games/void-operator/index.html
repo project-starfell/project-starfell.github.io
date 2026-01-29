@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Void Operator</title>
+    <style>
+        body { margin: 0; background: #0a001a; overflow: hidden; font-family: 'Courier New', monospace; }
+        #ui {
+            position: absolute;
+            top: 20px; width: 100%;
+            text-align: center;
+            color: #bc13fe;
+            font-size: 20px;
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px #bc13fe;
+            pointer-events: none;
+        }
+        canvas { display: block; filter: contrast(1.2) brightness(1.2); }
+    </style>
+</head>
+<body>
+    <div id="ui">SYSTEM STATUS: OPERATIONAL | SCORE: <span id="score">0</span></div>
+    <canvas id="gameCanvas"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>
