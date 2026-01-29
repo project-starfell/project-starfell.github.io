@@ -71,6 +71,7 @@ class PulseWave {
             // Fairness fix: hitbox reduced to 8
             if (Math.abs(dist - this.r) < 8) {
                 gameState = "GAMEOVER";
+                window.parent.postMessage({game: 'CyberPulse', score: score}, '*');
             }
         }
     }
