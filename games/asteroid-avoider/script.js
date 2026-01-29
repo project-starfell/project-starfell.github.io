@@ -100,6 +100,7 @@ function update() {
         let dist = Math.hypot(ship.x - a.x, ship.y - a.y);
         if (dist < ship.r + a.r) {
             gameState = "GAMEOVER";
+            window.parent.postMessage({game: 'AsteroidAvoider', score: score}, '*');
         }
     });
 
