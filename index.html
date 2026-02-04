@@ -128,13 +128,11 @@
         }
 
         function loadGame(url) {
-          const frame = document.getElementById('game-frame');
-    
-          // Adding permissions ensures the game has the right to run its engine
-          frame.setAttribute("sandbox", "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-scripts allow-same-origin");
-    
-          frame.src = url;
-          showView('game-view');
+            const frame = document.getElementById('game-frame');
+            // Standard permissions to allow the game to run
+            frame.setAttribute("sandbox", "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-scripts allow-same-origin");
+            frame.src = url;
+            showView('game-view');
         }
 
         // Title Disguise
