@@ -8,7 +8,6 @@
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: sans-serif; }
         #openfl-content { width: 100%; height: 100%; background: #000; }
         
-        /* The Loading Screen */
         #loader-overlay { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
             background: #ffffff; display: flex; flex-direction: column; 
@@ -18,8 +17,7 @@
         .progress-bar { width: 0%; height: 100%; background: #1a73e8; transition: width 0.3s; }
         #status-text { color: #5f6368; font-size: 14px; }
         
-        /* Error Message */
-        #error-msg { display: none; text-align: center; color: #d93025; padding: 20px; }
+        #error-msg { display: none; text-align: center; color: #d93025; padding: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -33,57 +31,61 @@
         </div>
         <div id="error-msg">
             <strong>Module Error: 403-NET</strong><br>
-            Handshake with asset server timed out.
-            <br><button onclick="location.reload()" style="margin-top:10px;">Retry</button>
+            Handshake with asset server timed out or blocked.
+            <br><button onclick="location.reload()" style="margin-top:10px; padding: 8px 16px;">Retry Connection</button>
         </div>
     </div>
 
     <div id="openfl-content"></div>
 
-    <script>
-        const progressBar = document.getElementById('progress-bar');
-        const loader = document.getElementById('loader-overlay');
-        let progress = 0;
-
-        // Visual progress simulation
-        const interval = setInterval(() => {
-            if (progress < 90) {
-                progress += Math.random() * 10;
-                progressBar.style.width = Math.min(progress, 90) + '%';
-            }
-        }, 400);
-
-        // Fail-safe timeout
-        const timeout = setTimeout(() => {
-            if (loader.style.opacity !== '0') {
-                document.getElementById('loading-ui').style.display = 'none';
-                document.getElementById('error-msg').style.display = 'block';
-            }
-        }, 15000);
-    </script>
-
-    <script src="./lime.js"></script>
-    <script src="./BasketBros.js"></script>
+    <script src="lime.js"></script>
+    <script src="BasketBros.js"></script>
 
     <script type="text/javascript">
+        const progressBar = document.getElementById('progress-bar');
+        const loader = document.getElementById('loader-overlay');
+        const errorMsg = document.getElementById('error-msg');
+        const loadingUi = document.getElementById('loading-ui');
+
+        // 1. Setup the Engine
         try {
-            // Launch the engine
-            lime.embed("BasketBros", "openfl-content", 0, 0, { parameters: {} });
-            
-            // Hide loader when page is fully ready
-            window.onload = function() {
-                progressBar.style.width = '100%';
-                setTimeout(() => {
-                    loader.style.opacity = '0';
-                    setTimeout(() => loader.style.display = 'none', 500);
-                    clearInterval(interval);
-                    clearTimeout(timeout);
-                }, 800);
-            };
+            // BasketBros usually looks for a manifest or project file. 
+            // We wrap it in a check to ensure lime is actually loaded.
+            if (typeof lime !== 'undefined') {
+                lime.embed("BasketBros", "openfl-content", 0, 0, { parameters: {} });
+                
+                // Simulate progress
+                let prog = 0;
+                const interval = setInterval(() => {
+                    prog += Math.random() * 15;
+                    progressBar.style.width = Math.min(prog, 95) + '%';
+                    if (prog >= 95) clearInterval(interval);
+                }, 200);
+
+                // 2. Success Handler
+                window.addEventListener('load', function() {
+                    progressBar.style.width = '100%';
+                    setTimeout(() => {
+                        loader.style.opacity = '0';
+                        setTimeout(() => loader.style.display = 'none', 500);
+                    }, 1000);
+                });
+            } else {
+                throw new Error("Lime not defined");
+            }
         } catch (e) {
-            document.getElementById('loading-ui').style.display = 'none';
-            document.getElementById('error-msg').style.display = 'block';
+            console.error("Game Load Failed:", e);
+            loadingUi.style.display = 'none';
+            errorMsg.style.display = 'block';
         }
+
+        // 3. Panic Key (Global)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape") {
+                // Tells the parent (index.html) to go back to the stream
+                window.parent.postMessage('closeGame', '*');
+            }
+        });
     </script>
 </body>
 </html>
