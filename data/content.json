@@ -1,1 +1,34 @@
-
+{
+  "tech_games": [
+    {
+      "title": "Kinetic Analysis of Projectile Motion: Module V3",
+      "instructor": "Jose Polanco",
+      "time": "10:02 AM",
+      "folder": "slope",
+      "icon": "📋"
+    },
+    {
+      "title": "Digital Logic & Circuitry Sandbox",
+      "instructor": "Jose Polanco",
+      "time": "Yesterday",
+      "folder": "retro-bowl",
+      "icon": "📋"
+    }
+  ],
+  "media_movies": [
+    {
+      "title": "Unit 2: Narrative Structures in Contemporary Cinema",
+      "instructor": "Jose Polanco",
+      "time": "11:45 AM",
+      "movie_url": "https://vidsrc.to/embed/movie/tt1375666",
+      "icon": "🎬"
+    },
+    {
+      "title": "Documentary Analysis: Digital Literacy Series",
+      "instructor": "Jose Polanco",
+      "time": "Monday",
+      "movie_url": "https://vidsrc.to/embed/movie/tt11464826",
+      "icon": "🎬"
+    }
+  ]
+}
