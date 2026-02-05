@@ -7,7 +7,7 @@
     <link rel="icon" type="image/x-icon" href="https://ssl.gstatic.com/classroom/favicon.png">
     <link rel="stylesheet" href="../assets/css/Classroom.css">
     <style>
-        :root { --brand-color: #1e8e3e; } /* Google Green for Tech/Science */
+        :root { --brand-color: #1e8e3e; } /* Tech Green */
     </style>
 </head>
 <body>
@@ -42,12 +42,12 @@
                 <div class="layout-grid">
                     <div class="upcoming-box">
                         <p><strong>Upcoming</strong></p>
-                        <p style="color: var(--text-gray);">Woohoo, no work due soon!</p>
+                        <p style="color: var(--text-gray);">No work due soon!</p>
+                        <p style="color: var(--brand-color); font-weight: 500; cursor: pointer; margin-top: 10px;">View all</p>
                     </div>
 
                     <div class="stream-posts" id="assignment-container">
-                        <p style="padding: 20px; color: var(--text-gray);">Loading modules...</p>
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>
@@ -55,7 +55,6 @@
 
     <script src="../assets/js/main.js"></script>
     <script>
-        // Load the Tech Games category from your JSON
         window.onload = () => loadAssignments('tech_games', 'assignment-container');
     </script>
 </body>
