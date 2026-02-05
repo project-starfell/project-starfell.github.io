@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Classroom - Media Studies</title>
     <link rel="icon" type="image/x-icon" href="https://ssl.gstatic.com/classroom/favicon.png">
-    
     <link rel="stylesheet" href="../assets/css/Classroom.css">
     <style>
-        :root { --brand-color: #d93025; } 
+        :root { --brand-color: #d93025; } /* Media Red */
     </style>
 </head>
 <body>
@@ -44,11 +43,11 @@
                     <div class="upcoming-box">
                         <p><strong>Upcoming</strong></p>
                         <p style="color: var(--text-gray);">No work due soon!</p>
+                        <p style="color: var(--brand-color); font-weight: 500; cursor: pointer; margin-top: 10px;">View all</p>
                     </div>
 
                     <div class="stream-posts" id="assignment-container">
-                        <p style="padding: 20px; color: var(--text-gray);">Loading assignments...</p>
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>
@@ -56,10 +55,7 @@
 
     <script src="../assets/js/main.js"></script>
     <script>
-        // When the page loads, fetch the 'media_movies' list from content.json
-        window.onload = () => {
-            loadAssignments('media_movies', 'assignment-container');
-        };
+        window.onload = () => loadAssignments('media_movies', 'assignment-container');
     </script>
 </body>
 </html>
