@@ -8,7 +8,7 @@
     
     <link rel="stylesheet" href="../assets/css/Classroom.css">
     <style>
-        :root { --brand-color: #d93025; } /* Set color to Media Red */
+        :root { --brand-color: #d93025; } 
     </style>
 </head>
 <body>
@@ -46,14 +46,8 @@
                         <p style="color: var(--text-gray);">No work due soon!</p>
                     </div>
 
-                    <div class="stream-posts">
-                        <div class="post-card" onclick="alert('Maintenance...')">
-                            <div class="post-icon">🎬</div>
-                            <div>
-                                <div style="font-size: 14px;"><strong>Jose Polanco</strong> posted: <strong>Unit 2: Narrative Structures</strong></div>
-                                <div style="font-size: 12px; color: var(--text-gray);">11:45 AM</div>
-                            </div>
-                        </div>
+                    <div class="stream-posts" id="assignment-container">
+                        <p style="padding: 20px; color: var(--text-gray);">Loading assignments...</p>
                     </div>
                 </div>
             </div>
@@ -61,5 +55,11 @@
     </div>
 
     <script src="../assets/js/main.js"></script>
+    <script>
+        // When the page loads, fetch the 'media_movies' list from content.json
+        window.onload = () => {
+            loadAssignments('media_movies', 'assignment-container');
+        };
+    </script>
 </body>
 </html>
