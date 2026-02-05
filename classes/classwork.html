@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classwork - Assignment Details</title>
+    <link rel="icon" type="image/x-icon" href="https://ssl.gstatic.com/classroom/favicon.png">
+    <link rel="stylesheet" href="../assets/css/Classroom.css">
+    <style>
+        .work-header { border-bottom: 1px solid var(--border-color); padding-bottom: 16px; margin-bottom: 20px; }
+        .work-header h1 { font-size: 28px; font-weight: 400; margin: 10px 0; color: var(--brand-color); }
+        .instructor-info { font-size: 14px; color: var(--text-gray); display: flex; align-items: center; gap: 10px; }
+        
+        .iframe-container { 
+            width: 100%; 
+            aspect-ratio: 16 / 9; 
+            background: #000; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            border: 1px solid var(--border-color);
+        }
+        iframe { width: 100%; height: 100%; border: none; }
+        
+        .back-link { 
+            text-decoration: none; 
+            color: var(--text-gray); 
+            font-size: 14px; 
+            display: inline-block; 
+            margin-bottom: 20px; 
+        }
+        .back-link:hover { color: var(--brand-color); }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <a href="../index.html" class="side-icon">🏠</a>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="view-section">
+            <div class="content-container">
+                <a href="#" class="back-link" onclick="history.back()">← Back to class stream</a>
+                
+                <div class="work-header">
+                    <h1 id="assignment-title">Loading Assignment...</h1>
+                    <div class="instructor-info">
+                        <div style="width:32px; height:32px; background:#ccc; border-radius:50%;"></div>
+                        <span>Jose Polanco • Material</span>
+                    </div>
+                </div>
+
+                <div class="iframe-container">
+                    <iframe id="content-frame" src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // Logic to extract URL parameters and set the frame
+        const urlParams = new URLSearchParams(window.location.search);
+        const type = urlParams.get('type');
+        const id = urlParams.get('id');       // Used for games (folder name)
+        const movieUrl = urlParams.get('url'); // Used for movies
+        const name = urlParams.get('name');
+
+        const frame = document.getElementById('content-frame');
+        const title = document.getElementById('assignment-title');
+
+        if (name) title.innerText = name;
+
+        if (type === 'game') {
+            // Path: /games/foldername/index.html
+            frame.src = `../games/${id}/index.html`;
+        } else if (type === 'movie') {
+            // Path: The URL provided in the JSON
+            frame.src = decodeURIComponent(movieUrl);
+        }
+    </script>
+</body>
+</html>
