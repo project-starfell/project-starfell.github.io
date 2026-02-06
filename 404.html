@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Lost in Space</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --midnight-violet: #32213A;
+            --space-indigo: #383B53;
+            --blue-slate: #66717E;
+            --sand-dune: #D4D6B9;
+            --dry-sage: #D1CAA1;
+        }
+        body {
+            background-color: var(--midnight-violet);
+            color: var(--sand-dune);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+        .glitch {
+            text-shadow: 2px 0 var(--blue-slate), -2px 0 var(--dry-sage);
+            animation: glitch 2s infinite linear alternate-reverse;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+    </style>
+</head>
+<body>
+    <div id="star-container" class="fixed inset-0 pointer-events-none"></div>
+
+    <div class="text-center relative z-10 px-6">
+        <h1 class="text-9xl font-black glitch mb-4">404</h1>
+        <h2 class="text-2xl font-bold text-sage mb-6 uppercase tracking-widest">Signal Lost in Sector 7</h2>
+        <p class="text-blue-slate mb-10 max-w-md mx-auto">
+            The coordinates you provided lead to a black hole. Your requested game has drifted out of communication range.
+        </p>
+        <a href="/" class="inline-block bg-[#D1CAA1] text-[#32213A] px-8 py-3 rounded-full font-bold hover:scale-105 transition-transform">
+            RETURN TO BASE
+        </a>
+    </div>
+
+    <script>
+        const container = document.getElementById('star-container');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 2 + 1 + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            container.appendChild(star);
+        }
+    </script>
+</body>
+</html>
