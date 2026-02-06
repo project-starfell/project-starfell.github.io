@@ -3,49 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classes</title>
-    <link rel="icon" type="image/x-icon" href="https://ssl.gstatic.com/classroom/favicon.png">
+    <title>ASTRO GAMES | Unblocked</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Roboto', Arial, sans-serif; background: #f8f9fa; margin: 0; }
-        header { height: 64px; background: white; border-bottom: 1px solid #dadce0; display: flex; align-items: center; padding: 0 20px; justify-content: space-between; position: sticky; top: 0; }
-        .logo { display: flex; align-items: center; gap: 10px; font-size: 22px; color: #5f6368; cursor: pointer; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; padding: 24px; max-width: 1200px; margin: 0 auto; }
+        /* Custom Colors from Palette */
+        :root {
+            --midnight-violet: #32213A;
+            --space-indigo: #383B53;
+            --blue-slate: #66717E;
+            --sand-dune: #D4D6B9;
+            --dry-sage: #D1CAA1;
+        }
+
+        body {
+            background-color: var(--midnight-violet);
+            color: var(--sand-dune);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .bg-indigo-space { background-color: var(--space-indigo); }
+        .bg-slate-blue { background-color: var(--blue-slate); }
+        .text-sage { color: var(--dry-sage); }
+        .border-slate { border-color: var(--blue-slate); }
         
-        .class-card { border: 1px solid #dadce0; border-radius: 8px; background: white; overflow: hidden; cursor: pointer; transition: 0.3s; text-decoration: none; color: inherit; }
-        .class-card:hover { box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .card-header { height: 100px; padding: 16px; color: white; background: #1967d2; position: relative; }
-        .card-header h2 { margin: 0; font-size: 22px; font-weight: 400; }
-        .card-body { padding: 16px; min-height: 100px; font-size: 13px; color: #5f6368; }
-        
-        /* Specific Colors for different classes */
-        .tech { background: #1e8e3e; } /* Green */
-        .media { background: #d93025; } /* Red */
+        .hero-gradient {
+            background: linear-gradient(180deg, var(--midnight-violet) 0%, var(--space-indigo) 100%);
+        }
+
+        .glass-card {
+            background: rgba(56, 59, 83, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--blue-slate);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--dry-sage);
+        }
+
+        .game-thumb {
+            background-color: var(--blue-slate);
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--midnight-violet);
+        }
+
+        .btn-primary {
+            background-color: var(--dry-sage);
+            color: var(--midnight-violet);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--sand-dune);
+            transform: translateY(-2px);
+        }
+
+        .search-input {
+            background: rgba(56, 59, 83, 0.5);
+            border: 1px solid var(--blue-slate);
+            color: white;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--dry-sage);
+        }
+
+        /* Star Animation */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
     </style>
 </head>
-<body>
+<body class="min-h-screen overflow-x-hidden">
 
-<header>
-    <div class="logo">☰ <img src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg" alt="Google"> <span style="margin-left: -5px;">Classroom</span></div>
-    <div style="font-size: 24px; color: #5f6368;">+ ⠿ 👤</div>
-</header>
+    <!-- Background Stars -->
+    <div id="star-container" class="fixed inset-0 pointer-events-none"></div>
 
-<div class="grid">
-    <a href="classes/educational-technology.html" class="class-card">
-        <div class="card-header tech">
-            <h2>Educational Technology</h2>
-            <div>Section 04</div>
+    <!-- Navigation -->
+    <nav class="p-6 flex flex-col md:flex-row justify-between items-center relative z-10 max-w-7xl mx-auto gap-4">
+        <div class="text-2xl font-bold tracking-tighter text-sage flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01"/><path d="M18 12h.01"/></svg>
+            ASTRO_GAMES
         </div>
-        <div class="card-body">Upcoming: Kinetic Analysis Due Friday</div>
-    </a>
-
-    <a href="classes/media-studies.html" class="class-card">
-        <div class="card-header media">
-            <h2>Media Studies</h2>
-            <div>Section 02</div>
+        
+        <div class="flex items-center gap-4 w-full md:w-auto">
+            <input type="text" placeholder="Search games..." class="search-input px-4 py-2 rounded-full text-sm w-full md:w-64">
+            <div class="hidden md:flex gap-6 items-center text-sm font-medium uppercase tracking-widest ml-4">
+                <a href="#" class="hover:text-white transition-colors">Action</a>
+                <a href="#" class="hover:text-white transition-colors">Sports</a>
+                <a href="#" class="hover:text-white transition-colors">Puzzle</a>
+            </div>
         </div>
-        <div class="card-body">Upcoming: Film Narrative Essay</div>
-    </a>
-</div>
+    </nav>
 
+    <!-- Hero Section -->
+    <header class="relative pt-12 pb-24 px-6 hero-gradient">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">Unblocked <span class="text-sage">Universe.</span></h1>
+            <p class="text-lg text-blue-slate mb-10 max-w-xl mx-auto">
+                Play the best HTML5 games directly in your browser. No downloads, no blocks, just pure entertainment.
+            </p>
+            <div class="flex gap-4 justify-center">
+                <button class="btn-primary px-8 py-3 rounded-lg font-bold">New Releases</button>
+                <button class="border border-slate px-8 py-3 rounded-lg font-bold hover:bg-indigo-space transition-all">Top Rated</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Section -->
+    <main class="max-w-7xl mx-auto px-6 -mt-10 relative z-10 pb-20">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            
+            <!-- Game 1: Pizza Tower (Custom Link) -->
+            <div class="glass-card p-4 rounded-2xl border-sage" style="border-width: 2px;">
+                <div class="game-thumb" style="background-color: var(--dry-sage);">
+                    <!-- Chef/Pizza style SVG icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 11h.01"/><path d="M11 15h.01"/><path d="M16 16h.01"/><path d="m2 16 20 6-6-20A20 20 0 0 0 2 16Z"/><path d="M5.71 17.11a17.04 17.04 0 0 1 11.4-11.4"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-1 text-sage">Pizza Tower</h3>
+                <p class="text-sand-dune text-sm mb-4">Fast-paced platforming action.</p>
+                <!-- This link should point to the URL of the page you created in Google Sites -->
+                <a href="https://sites.google.com/mesquiteisd.org/astro-games/games/pizzatower" target="_blank" rel="noopener noreferrer" class="w-full btn-primary py-2 rounded-lg font-bold text-sm">PLAY NOW</a>
+            </div>
+
+            <!-- Game 2 -->
+            <div class="glass-card p-4 rounded-2xl">
+                <div class="game-thumb">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20"/><path d="m5 9 7-7 7 7"/><path d="m19 15-7 7-7-7"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-1">Gravity Jump</h3>
+                <p class="text-blue-slate text-sm mb-4">Physics-based platformer.</p>
+                <a href="#" target="_blank" rel="noopener noreferrer" class="w-full btn-primary py-2 rounded-lg font-bold text-sm">PLAY NOW</a>
+            </div>
+
+            <!-- Game 3 -->
+            <div class="glass-card p-4 rounded-2xl">
+                <div class="game-thumb">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-1">Astro Puzzle</h3>
+                <p class="text-blue-slate text-sm mb-4">Match-3 in deep space.</p>
+                <a href="#" target="_blank" rel="noopener noreferrer" class="w-full btn-primary py-2 rounded-lg font-bold text-sm">PLAY NOW</a>
+            </div>
+
+        </div>
+
+        <!-- How it works / Categories -->
+        <section class="mt-20 flex flex-col md:flex-row items-center gap-12 bg-indigo-space p-8 md:p-12 rounded-3xl">
+            <div class="w-full md:w-1/3 text-center md:text-left">
+                <h2 class="text-3xl font-bold mb-4 text-sage">Play Safely</h2>
+                <p class="text-sand-dune text-sm">All our games are hand-picked to be fun, safe, and fully compatible with modern browsers.</p>
+            </div>
+            <div class="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-4 w-full">
+                <div class="bg-slate-blue/20 p-4 rounded-xl text-center border border-slate/30">
+                    <span class="block text-sage font-bold">100+</span>
+                    <span class="text-xs text-blue-slate uppercase">Games</span>
+                </div>
+                <div class="bg-slate-blue/20 p-4 rounded-xl text-center border border-slate/30">
+                    <span class="block text-sage font-bold">No Ads</span>
+                    <span class="text-xs text-blue-slate uppercase">Clean UI</span>
+                </div>
+                <div class="bg-slate-blue/20 p-4 rounded-xl text-center border border-slate/30">
+                    <span class="block text-sage font-bold">Fast</span>
+                    <span class="text-xs text-blue-slate uppercase">Loading</span>
+                </div>
+                <div class="bg-slate-blue/20 p-4 rounded-xl text-center border border-slate/30">
+                    <span class="block text-sage font-bold">Free</span>
+                    <span class="text-xs text-blue-slate uppercase">Forever</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate mt-20 py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-blue-slate text-xs uppercase tracking-widest font-bold">
+                ASTRO_GAMES UNBLOCKED &copy; 2024
+            </div>
+            <div class="flex gap-6 text-blue-slate text-sm">
+                <a href="#" class="hover:text-sage">Report Issue</a>
+                <a href="#" class="hover:text-sage">Request Game</a>
+                <a href="#" class="hover:text-sage">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Generate procedural stars
+        const container = document.getElementById('star-container');
+        const starCount = 120;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 2 + 1 + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            star.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(star);
+        }
+    </script>
 </body>
 </html>
